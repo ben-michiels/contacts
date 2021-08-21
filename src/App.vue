@@ -16,14 +16,15 @@
             </md-field>
           </div>
           <div id="sorting" class="md-toolbar-row md-layout md-alignment-center-center">
-           <p class="md-layout-item md-size-10 sorting-label">Sort</p>
-            <md-field md-align-trigger class="md-layout-item md-size-75 sorting-bar" id="sort-bar">
-             <md-select v-model="sort" name="sort" id="sort">
-               <md-option value="first-name">First Name</md-option>
-               <md-option value="surname">Surname</md-option>
-               <md-option value="country">Country</md-option>
-             </md-select>
-           </md-field>
+            <p class="md-layout-item md-size-10 sorting-label">Sort</p>
+            <form name="form1" id="form1" class="md-layout-item md-size-75 sorting-bar">
+              <select name="sort" id="sort" v-on:change="sortList()">
+                <option value="first" selected="selected">First Name</option>
+                <option value="last">Last Name</option>
+                <option value="state">County</option>
+                <option value="country">Country</option>
+              </select>
+            </form>
           </div>
         </div>
       </md-app-toolbar>
@@ -51,6 +52,7 @@ function filterList() {
   let searchContents = document.getElementById("search").value
   if (searchContents == "") {
     this.filteredUsers = Array.from(this.users.keys())
+    this.sortList()
     return
   }
   Array.from(this.users).forEach((user,index)=>{
@@ -66,6 +68,28 @@ function filterList() {
     }
   })
   this.filteredUsers = newFilteredUsers
+  this.sortList()
+}
+
+function sortList() {
+  let sortContents = document.getElementById("sort").value
+  this.filteredUsers = this.filteredUsers.sort(
+    function(index1,index2){
+      let user1 = this.users[index1]
+      let user2 = this.users[index2]
+      console.log(user1)
+      switch(sortContents){
+        case "first":
+          return user1.name.first.toUpperCase() < user2.name.first.toUpperCase() ? -1:1
+        case "last":
+          return user1.name.last.toUpperCase() < user2.name.last.toUpperCase() ? -1:1
+        case "state":
+          return user1.location.state.toUpperCase() < user2.location.state.toUpperCase() ? -1:1
+        case "country":
+          return user1.location.country.toUpperCase() < user2.location.country.toUpperCase() ? -1:1
+      }
+    }.bind(this)
+  )
 }
 
 export default {
@@ -74,7 +98,8 @@ export default {
     contactItem
   },
   methods: {
-    filterList
+    filterList,
+    sortList
   },
   data: () => ({
     sort: "first name",
@@ -134,15 +159,23 @@ export default {
   gap: 10%;
 }
 #search {
-  background-image: url('assets/1x/outline_search_black_24dp.png'); /* Add a search icon to input */
-  background-position: 10px 12px; /* Position the search icon */
-  background-repeat: no-repeat; /* Do not repeat the icon image */
+  background-image: url('assets/1x/outline_search_black_24dp.png');
+  background-position: 10px 12px;
+  background-repeat: no-repeat;
   background-color: white;
-  width: 100%; /* Full-width */
-  font-size: 16px; /* Increase font-size */
-  padding: 12px 20px 12px 40px; /* Add some padding */
-  border: 1px solid #ddd; /* Add a grey border */
-  margin-bottom: 12px; /* Add some space below the input */
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+#sort {
+  background-color: white;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
 }
 .sorting-bar {
   padding:0.5em;
