@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'contactItem',
+  name: 'ContactItem',
   props: 
   ['user']
 }
@@ -29,6 +29,7 @@ export default {
 .contact-name {
   color: #000000 !important;
   font-size: 1em !important;
+  font-weight: bold;
 }
 .contact-details {
   color: #ff4081 !important;
@@ -36,6 +37,15 @@ export default {
 }
 .contact-card {
   background-color: white;
-
+}
+.md-list-item-text * {
+  padding: 0.2em;
+}
+.contact-card {
+  padding-top: 8px;
+  margin-right: 8px;
+}
+.md-divider {
+  margin-right: 20px;
 }
 </style>
