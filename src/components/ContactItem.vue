@@ -2,7 +2,7 @@
   <div class="contact-card">
     <md-list-item>
         <md-avatar>
-          <img v-bind:src="user.picture.thumbnail" alt="People">
+          <img v-bind:src="user.picture.thumbnail" alt="Avatar image">
         </md-avatar>
 
         <div class="md-list-item-text">
@@ -24,8 +24,15 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.contact-card {
+  padding-top: 8px;
+  margin-right: 8px;
+  background-color: white;
+}
+.md-list-item-text * {
+  padding: 0.2em;
+}
 .contact-name {
   color: #000000 !important;
   font-size: 1em !important;
@@ -34,16 +41,6 @@ export default {
 .contact-details {
   color: #ff4081 !important;
   font-size: 0.90em !important;
-}
-.contact-card {
-  background-color: white;
-}
-.md-list-item-text * {
-  padding: 0.2em;
-}
-.contact-card {
-  padding-top: 8px;
-  margin-right: 8px;
 }
 .md-divider {
   margin-right: 20px;

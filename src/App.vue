@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="page-container">
+    <!-- This component switches between the ContactList and ContactDetails views -->
       <component v-bind:is="currentComponent" v-bind="currentProperties" v-on:show-contact="displayUser" v-on:show-list="displayList"></component>
   </div>
 </template>
@@ -30,6 +31,7 @@ export default {
     }
   },
   computed:{
+    //This function determines the necessary properties to pass to the dynamic component
     currentProperties: function(){
       if(this.currentComponent==="ContactList"){
         return{users:this.users}

@@ -9,7 +9,7 @@
             </md-app-toolbar>
             <md-app-content>
                 <div class="large-image-container">
-                    <img id="profile-picture" v-bind:src="this.user.picture.large" alt="Profile picture">
+                    <img id="profile-picture" class="cropped-image" v-bind:src="this.user.picture.large" v-on:click="toggleImageSize" alt="Profile picture">
                     <h2 id=contact-name>{{user.name.first}} {{user.name.last}}</h2>
                 </div>
                 <main class="details">
@@ -40,31 +40,44 @@
 </template>
 
 <script>
-
 export default {
   name: 'ContactDetails',
   props: 
   ['user'],
+  methods: {
+      toggleImageSize: function(){
+        document.getElementById("profile-picture").classList.toggle("cropped-image")
+      }
+  }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .md-app {
-  height:100vh
+  height: 100vh;
+}
+.md-toolbar-row {
+    padding-bottom: 0.5em;
 }
 .toolbar-icon {
     font-size:30px !important;
     margin-left: 24px;
     padding-bottom: 0.1em;
 }
-.md-toolbar-row {
-    padding-bottom: 0.5em;
-}
 .large-image-container {
-    height: 32vh;
     position: relative;
     z-index:0;
+    height:auto
+}
+#profile-picture {
+    position:relative;
+    width: 100vw;
+    z-index: 1;
+}
+.cropped-image {
+    max-height: 32vh;
+    overflow: hidden;
+    object-fit:cover;
 }
 #contact-name {
     color: white;
@@ -77,14 +90,6 @@ export default {
     margin:0;
     font-weight:500;
     text-shadow: 1px 1px 1px #212121;
-}
-#profile-picture {
-    position:relative;
-    width: 100vw;
-    max-height: 32vh;
-    z-index: 1;
-    overflow: hidden;
-    object-fit:cover;
 }
 dl {
     display: flex;
@@ -114,9 +119,10 @@ address {
 }
 main {
     padding: 1em;
+    margin-bottom: 56px;
 }
 .md-bottom-bar {
     bottom:0;
-    position:absolute;
+    position:fixed;
 }
 </style>

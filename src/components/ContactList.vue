@@ -10,14 +10,14 @@
         
         <div id="list-controls">
           <div id="searching" class="md-toolbar-row md-layout md-alignment-center-center">
-            <p class="md-layout-item md-size-10 sorting-label">Search</p>
-            <md-field md-inline class="md-layout-item md-size-75 sorting-bar">
+            <p class="md-layout-item md-size-10 listing-label">Search</p>
+            <md-field md-inline class="md-layout-item md-size-75 listing-bar">
               <input type="text" id="search" v-on:keyup="filterList()">
             </md-field>
           </div>
           <div id="sorting" class="md-toolbar-row md-layout md-alignment-center-center">
-            <p class="md-layout-item md-size-10 sorting-label">Sort</p>
-            <form name="form1" id="form1" class="md-layout-item md-size-75 sorting-bar">
+            <p class="md-layout-item md-size-10 listing-label">Sort</p>
+            <form name="form1" id="form1" class="md-layout-item md-size-75 listing-bar">
               <select name="sort" id="sort" v-on:change="sortList()">
                 <option value="first" selected="selected">First Name</option>
                 <option value="last">Last Name</option>
@@ -32,7 +32,6 @@
         <md-app-content>
           <div id="scrolling-list">
             <md-list class="md-double-line">
-              <!-- input cards here -->
               <div v-for="user of filteredUsers" v-bind:key="users[user].login.uuid">
                 <ContactItem v-bind:user="users[user]" v-on:click.native="$emit('show-contact',users[user])"></ContactItem>
               </div>
@@ -46,6 +45,7 @@
 <script>
 import ContactItem from './ContactItem.vue'
 
+//Generates a list of indeces refering to the relevant users in the "users" array
 function filterList() {
   let newFilteredUsers = []
   let searchContents = document.getElementById("search").value
@@ -70,6 +70,7 @@ function filterList() {
   this.sortList()
 }
 
+//Sorts the current filtered list of indeces based on the selected option
 function sortList() {
   let sortContents = document.getElementById("sort").value
   this.filteredUsers = this.filteredUsers.sort(
@@ -104,6 +105,8 @@ export default {
     filteredUsers: [],
   }),
   props: ["users"],
+  //filterList is assigned to be run when users updates *and* when ContactList is mounted. On page loading, users only update after
+  //mounting (on the API call). However, on returning from ContactDetails, users aren't updated so we filter on mounting.
   watch: {
     users:filterList
   },
@@ -127,15 +130,6 @@ export default {
 .md-app-content {
   padding:0;
 }
-.toolbar-icon {
-  margin: 0em;
-  margin-left: 1em;
-  color:white;
-}
-.md-title {
-  color:white;
-  font-size:1.4em;
-}
 .md-app-toolbar {
   gap: 1em;
   min-height: 5em;
@@ -144,6 +138,15 @@ export default {
 }
 .md-toolbar-row {
   align-content: flex-end;
+}
+.toolbar-icon {
+  margin: 0em;
+  margin-left: 1em;
+  color:white;
+}
+.md-title {
+  color:white;
+  font-size:1.4em;
 }
 #list-controls {
   padding-top: 0.2m;
@@ -156,6 +159,12 @@ export default {
   max-width: 100%;
   gap: 10%;
 }
+.listing-label {
+  font-size: 1.2em;
+}
+.listing-bar {
+  padding:0.5em;
+}
 #search {
   background-image: url('../assets/1x/outline_search_black_24dp.png');
   background-position: 10px 12px;
@@ -167,6 +176,9 @@ export default {
   border: 1px solid #ddd;
   margin-bottom: 2px;
 }
+#sort-bar {
+  background-color: white;
+}
 #sort {
   background-color: white;
   width: 100%;
@@ -174,15 +186,6 @@ export default {
   padding: 16px 20px 12px 10px;
   border: 1px solid #ddd;
   margin-bottom: 2px;
-}
-.sorting-bar {
-  padding:0.5em;
-}
-#sort-bar {
-  background-color: white;
-}
-.sorting-label {
-  font-size: 1.2em;
 }
 #scrolling-list {
   background-color:white;
